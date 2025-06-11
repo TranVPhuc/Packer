@@ -62,5 +62,6 @@ build {
 ```
 
 ### 🚀 Build AMI
-`packer init .`  
-`packer build ami.pkr.hcl`
+- Sử dụng 2 command sau để tiến hành build AMI:
++ `packer init .`  
++ `packer build ami.pkr.hcl`
