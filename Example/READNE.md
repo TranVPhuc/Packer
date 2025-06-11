@@ -1,3 +1,30 @@
+# Tạo AMI với Packer + Cloud-Init cài sẵn Nginx
+
+## 📦 Mục tiêu
+- Tự động build AMI bằng Packer
+- Dùng Cloud-Init để cài đặt Nginx khi build
+- Launch EC2 instance từ AMI đã có sẵn Nginx
+
+## 📁 Cấu trúc thư mục
+├── cloud-init.yaml # Script Cloud-Init để cài Nginx
+├── packer-template.pkr.hcl # Template Packer định nghĩa AMI
+
+## 📄 Nội dung các file
+### `cloud-init.yaml`
+```
+#cloud-config
+package_update: true
+package_upgrade: true
+
+runcmd:
+  - apt-get update
+  - apt-get install -y nginx
+  - systemctl enable nginx
+  - systemctl start nginx
+```
+
+### `ami.pkr.hcl`
+```
 packer {
   required_plugins {
     amazon = {
@@ -32,3 +59,8 @@ build {
   }
 
 }
+```
+
+### 🚀 Build AMI
+`packer init .`
+`packer build ami.pkr.hcl`
