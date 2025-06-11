@@ -6,7 +6,7 @@
 - Launch EC2 instance từ AMI đã có sẵn Nginx
 
 ## 📁 Cấu trúc thư mục
-├── cloud-init.yaml # Script Cloud-Init để cài Nginx
+├── cloud-init.yaml # Script Cloud-Init để cài Nginx  
 ├── packer-template.pkr.hcl # Template Packer định nghĩa AMI
 
 ## 📄 Nội dung các file
@@ -62,5 +62,5 @@ build {
 ```
 
 ### 🚀 Build AMI
-`packer init .`
+`packer init .`  
 `packer build ami.pkr.hcl`
