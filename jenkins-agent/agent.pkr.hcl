@@ -7,20 +7,6 @@ packer {
   }
 }
 
-variable "jenkins_url" {
-  type = string
-}
-
-variable "jenkins_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "agent_name" {
-  type = string
-}
-
-
 source "amazon-ebs" "jenkins_agent" {
   profile          = "packer"
   region           = "ap-southeast-1"
