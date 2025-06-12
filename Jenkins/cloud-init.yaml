@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - openjdk-17-jdk
+  - wget
+  - gnupg
+  - curl
+
+runcmd:
+  - curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | gpg --dearmor | tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+  - echo 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/' > /etc/apt/sources.list.d/jenkins.list
+  - apt-get update
+  - apt-get install -y jenkins
+  - systemctl enable jenkins
+  - systemctl start jenkins

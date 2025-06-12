@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 1.0.0"
+      version = ">= 1.3.7"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -35,6 +35,8 @@ source "amazon-ebs" "jenkins" {
   tags = {
     Name = "packer-jenkins"
   }
+
+  user_data_file = "cloud-init.yaml"
 }
 
 build {
@@ -43,15 +45,11 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y openjdk-17-jdk wget gnupg curl gpg",
-      "sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java",
-      "curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | gpg --dearmor | sudo tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null",
-      "echo 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/' | sudo tee /etc/apt/sources.list.d/jenkins.list",
-      "sudo apt-get update",
-      "sudo apt-get install -y jenkins",
-      "sudo systemctl enable jenkins"
+      "echo '⏳ Chờ cloud-init hoàn tất...'",
+      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do sleep 1; done",
+      "echo '✅ cloud-init hoàn tất.'",
+      "echo '🔍 Kiểm tra trạng thái Jenkins bằng systemctl...'",
+      "sudo systemctl status jenkins || (echo '❌ Jenkins KHÔNG chạy đúng cách'; exit 1)"
     ]
   }
-
 }
