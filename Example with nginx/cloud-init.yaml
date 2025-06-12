@@ -4,6 +4,7 @@ package_upgrade: true
 
 runcmd:
   - apt-get update
+  - apt-get install -y openjdk-17-jdk wget gnupg curl gpg
   - apt-get install -y nginx
   - systemctl enable nginx
   - systemctl start nginx
