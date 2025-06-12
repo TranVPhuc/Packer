@@ -20,4 +20,4 @@
 + `packer build ami-template.pkr.hcl`
 
 ## Result
-![Result](./Screenshot%20from%202025-06-12%2015-30-18.png)
+![Result](./Screenshoot1.png)
