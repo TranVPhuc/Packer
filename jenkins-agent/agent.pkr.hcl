@@ -30,13 +30,17 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt-get update",
-      "sudo apt-get install -y openjdk-17-jre-headless curl",
-      "sudo apt install -y python3 python3-pip",
+      "sudo apt-get install -y unzip openjdk-17-jre-headless curl python3 python3-pip",
+      "curl 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip' -o 'awscliv2.zip'",
+      "unzip awscliv2.zip",
+      "sudo ./aws/install",
+      "aws --version",
       "sudo mkdir -p /home/ubuntu/agent",
       "sudo chown ubuntu:ubuntu /home/ubuntu/agent",
       "cd /home/ubuntu/agent && sudo -u ubuntu curl -sO ${var.jenkins_url}jnlpJars/agent.jar"
     ]
   }
+
 
   provisioner "shell" {
     inline = [<<EOF

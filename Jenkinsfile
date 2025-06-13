@@ -5,10 +5,11 @@ pipeline {
         AGENT_LABEL = 'agent1'
     }
 
-    agent any
+    agent none
 
     stages {
         stage('Scale up ASG') {
+            agent { label 'agent1' }
             steps {
                 echo "Scaling ASG to launch Jenkins agent..."
                 sh """
@@ -21,19 +22,10 @@ pipeline {
         }
 
         stage('Wait for agent to connect') {
+            agent { label 'agent1' }
             steps {
-                script {
-                    echo "Waiting for agent with label '$AGENT_LABEL'..."
-                    timeout(time: 5, unit: 'MINUTES') {
-                        waitUntil {
-                            def onlineAgent = nodes.find { node ->
-                                node.getLabelString().contains(env.AGENT_LABEL) &&
-                                node.toComputer()?.isOnline()
-                            }
-                            return onlineAgent != null
-                        }
-                    }
-                }
+                echo "Waiting manually for agent to connect. Please ensure EC2 is running and registered in Jenkins."
+                sleep(time: 60, unit: 'SECONDS') // hoặc dùng plugin để check
             }
         }
 
@@ -53,13 +45,16 @@ for i in range(3):
 
     post {
         always {
-            echo "Scaling down ASG after job completes..."
-            sh """
-            aws autoscaling update-auto-scaling-group \
-              --auto-scaling-group-name $ASG_NAME \
-              --desired-capacity 0 \
-              --region $AWS_REGION
-            """
+            agent { label 'agent1' }
+            steps {
+                echo "Scaling down ASG after job completes..."
+                sh """
+                aws autoscaling update-auto-scaling-group \
+                  --auto-scaling-group-name $ASG_NAME \
+                  --desired-capacity 0 \
+                  --region $AWS_REGION
+                """
+            }
         }
     }
 }
