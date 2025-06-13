@@ -31,13 +31,13 @@ pipeline {
         stage('Run Python script') {
             agent { label "${env.AGENT_LABEL}" }
             steps {
-                echo "Running script on agent: ${env.AGENT_LABEL}"
-                writeFile file: 'script.py', text: '''
-print("Hello from Jenkins ASG Agent!")
-for i in range(3):
-    print(f"Step {i+1}")
-'''
-                sh 'python3 script.py'
+                echo "Cloning repo and running Python script on agent: ${env.AGENT_LABEL}"
+
+                // Clone repo từ GitHub hoặc GitLab
+                sh 'git clone https://github.com/TranVPhuc/Packer.git'
+
+                // Di chuyển vào thư mục repo và chạy file Python
+                sh 'cd Packer && python3 main.py'
             }
         }
     }

@@ -30,7 +30,7 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt-get update",
-      "sudo apt-get install -y unzip openjdk-17-jre-headless curl python3 python3-pip",
+      "sudo apt-get install -y unzip openjdk-17-jre-headless curl python3 python3-pip git",
       "curl 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip' -o 'awscliv2.zip'",
       "unzip awscliv2.zip",
       "sudo ./aws/install",
