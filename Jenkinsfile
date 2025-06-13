@@ -5,11 +5,10 @@ pipeline {
         AGENT_LABEL = 'agent1'
     }
 
-    agent none
+    agent any
 
     stages {
         stage('Scale up ASG') {
-            agent { label 'agent1' }
             steps {
                 echo "Scaling ASG to launch Jenkins agent..."
                 sh """
@@ -22,10 +21,9 @@ pipeline {
         }
 
         stage('Wait for agent to connect') {
-            agent { label 'agent1' }
             steps {
                 echo "Waiting manually for agent to connect. Please ensure EC2 is running and registered in Jenkins."
-                sleep(time: 60, unit: 'SECONDS') // hoặc dùng plugin để check
+                sleep(time: 60, unit: 'SECONDS')
             }
         }
 
@@ -45,7 +43,6 @@ for i in range(3):
 
     post {
         always {
-            agent { label 'agent1' }
             steps {
                 echo "Scaling down ASG after job completes..."
                 sh """
