@@ -43,26 +43,25 @@ build {
 
 
   provisioner "shell" {
-    inline = [<<EOF
-cat <<EOT | sudo tee /etc/systemd/system/jenkins-agent.service
-[Unit]
-Description=Jenkins Agent
-After=network.target
-
-[Service]
-User=ubuntu
-WorkingDirectory=/home/ubuntu/agent
-ExecStart=/usr/bin/java -jar /home/ubuntu/agent/agent.jar -url ${var.jenkins_url} -secret ${var.jenkins_secret} -name ${var.agent_name} -webSocket -workDir /home/ubuntu/agent
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOT
-
-sudo systemctl daemon-reload
-sudo systemctl enable jenkins-agent
-sudo systemctl start jenkins-agent
-EOF
+    inline = [
+      "cat <<EOT | sudo tee /etc/systemd/system/jenkins-agent.service",
+      "[Unit]",
+      "Description=Jenkins Agent",
+      "After=network.target",
+      "",
+      "[Service]",
+      "User=ubuntu",
+      "WorkingDirectory=/home/ubuntu/agent",
+      "ExecStart=/usr/bin/java -jar /home/ubuntu/agent/agent.jar -url ${var.jenkins_url} -secret ${var.jenkins_secret} -name ${var.agent_name} -webSocket -workDir /home/ubuntu/agent",
+      "Restart=always",
+      "",
+      "[Install]",
+      "WantedBy=multi-user.target",
+      "EOT",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable jenkins-agent",
+      "sudo systemctl start jenkins-agent"
     ]
   }
+
 }
