@@ -7,6 +7,10 @@ packer {
   }
 }
 
+variable "jenkins_url" {}
+variable "jenkins_secret" {}
+variable "agent_name" {}
+
 source "amazon-ebs" "jenkins_agent" {
   profile          = "packer"
   region           = "ap-southeast-1"
@@ -27,6 +31,7 @@ build {
     inline = [
       "sudo apt-get update",
       "sudo apt-get install -y openjdk-17-jre-headless curl",
+      "sudo apt install -y python3 python3-pip",
       "sudo mkdir -p /home/ubuntu/agent",
       "sudo chown ubuntu:ubuntu /home/ubuntu/agent",
       "cd /home/ubuntu/agent && sudo -u ubuntu curl -sO ${var.jenkins_url}jnlpJars/agent.jar"
