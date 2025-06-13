@@ -26,11 +26,11 @@ pipeline {
                     echo "Waiting for agent with label '$AGENT_LABEL'..."
                     timeout(time: 5, unit: 'MINUTES') {
                         waitUntil {
-                            def node = Jenkins.instance.nodes.find { 
-                                it.getLabelString().contains(env.AGENT_LABEL) &&
-                                it.toComputer()?.isOnline()
+                            def onlineAgent = nodes.find { node ->
+                                node.getLabelString().contains(env.AGENT_LABEL) &&
+                                node.toComputer()?.isOnline()
                             }
-                            return node != null
+                            return onlineAgent != null
                         }
                     }
                 }
