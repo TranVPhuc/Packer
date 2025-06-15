@@ -23,6 +23,7 @@ source "amazon-ebs" "jenkins" {
   source_ami                  = "ami-069cb3204f7a90763"
   ssh_username                = "ubuntu"
   associate_public_ip_address = true
+  iam_instance_profile        = "ec2tos3"
   subnet_id                   = "subnet-05cb038996001881b"
 
   launch_block_device_mappings {

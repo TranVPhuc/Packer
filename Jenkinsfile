@@ -24,7 +24,7 @@ pipeline {
         stage('Wait for agent to connect') {
             steps {
                 echo "Waiting for agent to connect..."
-                sleep(time: 60, unit: 'SECONDS') // Could be replaced with retry/wait logic
+                sleep(time: 60, unit: 'SECONDS')
             }
         }
 
@@ -32,11 +32,7 @@ pipeline {
             agent { label "${env.AGENT_LABEL}" }
             steps {
                 echo "Cloning repo and running Python script on agent: ${env.AGENT_LABEL}"
-
-                // Clone repo từ GitHub hoặc GitLab
-                sh 'git clone https://github.com/TranVPhuc/Packer.git'
-
-                // Di chuyển vào thư mục repo và chạy file Python
+                sh 'git clone https://github.com/TranVPhuc/Packer.git'           
                 sh 'cd Packer && python3 main.py'
             }
         }

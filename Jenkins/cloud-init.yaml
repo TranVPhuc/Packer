@@ -2,15 +2,23 @@
 package_update: true
 package_upgrade: true
 packages:
-  - openjdk-17-jdk
-  - wget
-  - gnupg
-  - curl
+- openjdk-17-jdk
+- wget
+- gnupg
+- curl
+- unzip
 
 runcmd:
-  - curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | gpg --dearmor | tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
-  - echo 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/' > /etc/apt/sources.list.d/jenkins.list
-  - apt-get update
-  - apt-get install -y jenkins
-  - systemctl enable jenkins
-  - systemctl start jenkins
+# Cài đặt Jenkins
+- curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | gpg --dearmor | tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+- echo 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/' > /etc/apt/sources.list.d/jenkins.list
+- apt-get update
+- apt-get install -y jenkins
+- systemctl enable jenkins
+- systemctl start jenkins
+
+# Cài đặt AWS CLI v2
+- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+- unzip awscliv2.zip
+- ./aws/install
+- aws --version
