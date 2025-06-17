@@ -23,7 +23,7 @@ source "amazon-ebs" "jenkins" {
   source_ami                  = "ami-069cb3204f7a90763"
   ssh_username                = "ubuntu"
   associate_public_ip_address = true
-  iam_instance_profile        = "ec2tos3"
+  iam_instance_profile        = "ec2toasg"
   subnet_id                   = "subnet-05cb038996001881b"
 
   launch_block_device_mappings {
@@ -46,11 +46,11 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo '⏳ Chờ cloud-init hoàn tất...'",
+      "echo '⏳ Waiting for cloud-init to complete...'",
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do sleep 1; done",
-      "echo '✅ cloud-init hoàn tất.'",
-      "echo '🔍 Kiểm tra trạng thái Jenkins bằng systemctl...'",
-      "sudo systemctl status jenkins || (echo '❌ Jenkins KHÔNG chạy đúng cách'; exit 1)"
+      "echo '✅ cloud-init completed.'",
+      "echo '🔍 Checking Jenkins status via systemctl...'",
+      "sudo systemctl status jenkins || (echo '❌ Jenkins is NOT running correctly'; exit 1)"
     ]
   }
 }
