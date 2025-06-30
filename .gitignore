@@ -1,6 +1,20 @@
-*.auto.pkrvars.hcl
+# Terraform
 *.tfstate
 *.tfstate.backup
 *.tfplan
 **/.terraform/
+
+# Packer
+*.auto.pkrvars.hcl
+
+# Executables
 *.exe
+
+# IDE/Editor
+*.log
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
