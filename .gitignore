@@ -1,1 +1,6 @@
 *.auto.pkrvars.hcl
+*.tfstate
+*.tfstate.backup
+*.tfplan
+**/.terraform/
+*.exe
